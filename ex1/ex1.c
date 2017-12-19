@@ -8,7 +8,23 @@
 
 int main(int argc, char *argv[])
 {
-    // Your code here
+  int x = 100;
+  printf("x = %d\n", x); //should be 100
 
-    return 0;
+  int rc = fork();
+  if (rc < 0) {
+    fprintf(stderr, "fork failed\n");
+    exit(1);
+  } else if (rc == 0) {
+    puts("Inside child");
+    printf("x = %d\n", x); //should be 100
+    x += 5;
+    printf("x = %d\n", x); //should be 105
+  } else {
+    puts("Inside parent");
+    printf("x = %d\n", x); //should be 100
+    x += 15;
+    printf("x = %d\n", x); //should be 115
+  }
+  return 0;
 }

@@ -16,7 +16,18 @@
 
 int main()
 {
-    // Your code here
-    
-    return 0;
+  struct timespec start, end;
+  int diff;
+  
+  clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start);
+  
+  for(int i = 0; i < number_iter; i++){
+    write(fileno(stdout), NULL, 0);
+  }
+  
+  clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &end); 
+  
+  diff = end.tv_nsec - start.tv_nsec;
+  printf("Average is %f nanoseconds\n", (double) diff / number_iter);
+  return 0;
 }

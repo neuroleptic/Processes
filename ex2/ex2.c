@@ -8,7 +8,24 @@
 
 int main(int argc, char* argv[])
 {
-    // Your code here 
-    
-    return 0;
+  FILE *fp;
+  fp = fopen("text.txt", "w");
+  if (fp == NULL) {
+    puts("Could not open file");
+    exit(1);
+	}
+  int rc = fork();
+  if (rc < 0) {
+    fprintf(stderr, "fork failed\n");
+    exit(1);
+  } else if (rc == 0) {
+    char child[] = "Hello from the child process\n";
+    fwrite(child, 1, sizeof(child), fp);
+    fclose(fp);
+  } else {
+    char parent[] = "Hello from the parent process\n";
+    fwrite(parent, 1, sizeof(parent), fp);
+    fclose(fp);
+  }
+  return 0;
 }
